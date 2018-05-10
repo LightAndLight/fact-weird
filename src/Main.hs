@@ -7,9 +7,9 @@ fac_fold :: Int -> Int
 fac_fold n = foldr (*) 1 [1..n]
 
 main =
-  defaultMain
-  [ bench "scan - 2000" $ whnf fac_scan 2000
-  , bench "fold - 2000" $ whnf fac_fold 2000
-  , bench "scan - 2001" $ whnf fac_scan 2001
-  , bench "fold - 2001" $ whnf fac_fold 2001
-  ]
+  let r = [1000, 1001, 2000, 2001]
+  in  defaultMain $
+        do  n      <- r
+            (k, f) <- [("scan", fac_scan), ("fold", fac_fold)]
+            pure (bench (k ++ " - " ++ show n) $ whnf f n)
+        
